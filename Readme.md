@@ -1,4 +1,4 @@
-#### This project was proposed by the Boston Consulting Group (BCG)
+### This project was proposed by the Boston Consulting Group (BCG)
 For more information about this program, click [HERE](https://www.theforage.com/simulations/bcg/data-science-ccdz).
 
 Task 1 - Understanding the business context and problem statement
@@ -28,7 +28,9 @@ O deploy será realizado via XXX.
 
 **Containers postgres e pgadmin**
 
-Após instalar o docker desktop, execute o seguinte comando no cmd: docker-compose build
+Após instalar o docker desktop, execute o seguinte comando no cmd: 
+
+[docker-compose build]
 
 Em seguida inicie os containers: docker-compose up
 
@@ -53,14 +55,31 @@ Passo a passo para criar a conexão com o banco de dados:
 
 Ao fim dessa execução, já haverá um DB criado com o nome "mydatabase".
 
-5 - Clicar com o botão direito do mouse sobre o item "Esquemas", depois criar esquema e preencher conforme abaixo:
+5 - Abrindo a árvore do DB criado, clicar com o botão direito do mouse sobre o item "Esquemas", depois criar esquema e preencher conforme abaixo:
     Nome: a seu critério
     Proprietário: myuser
     Comentário: A seu critério
 
-    [Salvar]
+[Salvar]
 
-6 - clicar com o botão direito em cima do schema criado e depois "Query Tool"
+6 - clicar com o botão direito em cima do schema criado e depois "Ferramenta de consulta"
 
 7 - Inserir os comandos SQL para criação das tabelas (comandos dentro da pasta src/sql)
 
+8 - Insira os dados dos arquivos .csv que estão em data/ dessa forma:
+    a) Aba Geral: Clique com o botão direito em cima da tabela e em "Importar/Exportar Dados..." e escolha o arquivo
+    b) Aba Opções: ative a opção "Cabeçalho"
+
+
+
+
+
+
+## Desafios enfrentados
+
+1 - Inicialmente tentei utilizar o pgadmin localmente, mas não consegui fazer a comunicação entre ele e o container postgres. Para resolver isso criei um container para o pgadmin.
+2 - No momento de importar os dados para as tabelas, tive dois problemas principais:
+    a) Criei a coluna id das tabelas como INT e nos .csv a informação era uma cadeia de texto. Alterando na criação para VARCHAR(255) o problema foi resolvido.
+    b) A tabela price possui IDs duplicados, uma vez que são registros ao longo do tempo para cada cliente. Definindo uma chave primária composta (client_id, price_date) o problema foi resolvido.
+    c) Ainda na ingestão da tabela price, havia ID's no .csv price_data que não existiam na tabela **client**. Dessa forma, foi preciso remove-los.
+    Faça isso executando o código no notebook **price_data_adjust.ipynb**
