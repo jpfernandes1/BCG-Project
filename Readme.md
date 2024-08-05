@@ -28,15 +28,16 @@ O deploy será realizado via XXX.
 
 **Containers postgres e pgadmin**
 
-Após instalar o docker desktop, execute o seguinte comando no cmd: 
+Após instalar o docker desktop, execute os seguintes comandos no cmd: 
 
-[docker-compose build]
+1 - docker network create local-network
+2 - docker-compose -f docker-compose.yml up
 
 Em seguida inicie os containers: docker-compose up
 
 **Banco de dados**
 
-No seu navegador, acesse o pgadmin através do endereço: http://localhost:5050
+No seu navegador, acesse o pgadmin através do endereço: http://localhost:8080
 
 Passo a passo para criar a conexão com o banco de dados:
 1 - Após abrir o pgadmin, faça login conforme as credenciais definidas no docker-compose.yml
@@ -56,7 +57,7 @@ Passo a passo para criar a conexão com o banco de dados:
 Ao fim dessa execução, já haverá um DB criado com o nome "mydatabase".
 
 5 - Abrindo a árvore do DB criado, clicar com o botão direito do mouse sobre o item "Esquemas", depois criar esquema e preencher conforme abaixo:
-    Nome: a seu critério
+    Nome: webuser
     Proprietário: myuser
     Comentário: A seu critério
 
@@ -70,16 +71,23 @@ Ao fim dessa execução, já haverá um DB criado com o nome "mydatabase".
     a) Aba Geral: Clique com o botão direito em cima da tabela e em "Importar/Exportar Dados..." e escolha o arquivo
     b) Aba Opções: ative a opção "Cabeçalho"
 
+**Scripts de conexão do banco de dados**
 
 
+
+
+
+### Observações gerais
+
+1. Não foi avaliada a necessidade de normalização do banco de dados
 
 
 
 ## Desafios enfrentados
 
-1 - Inicialmente tentei utilizar o pgadmin localmente, mas não consegui fazer a comunicação entre ele e o container postgres. Para resolver isso criei um container para o pgadmin.
-2 - No momento de importar os dados para as tabelas, tive dois problemas principais:
-    a) Criei a coluna id das tabelas como INT e nos .csv a informação era uma cadeia de texto. Alterando na criação para VARCHAR(255) o problema foi resolvido.
-    b) A tabela price possui IDs duplicados, uma vez que são registros ao longo do tempo para cada cliente. Definindo uma chave primária composta (client_id, price_date) o problema foi resolvido.
+1 - Inicialmente tentei utilizar o pgadmin localmente, mas não consegui fazer a comunicação entre ele e o container postgres. Para resolver isso criei um container para o pgadmin. <br>
+2 - No momento de importar os dados para as tabelas, tive dois problemas principais: <br>
+    a) Criei a coluna id das tabelas como INT e nos .csv a informação era uma cadeia de texto. Alterando na criação para VARCHAR(255) o problema foi resolvido. <br>
+    b) A tabela price possui IDs duplicados, uma vez que são registros ao longo do tempo para cada cliente. Definindo uma chave primária composta (client_id, price_date) o problema foi resolvido. <br>
     c) Ainda na ingestão da tabela price, havia ID's no .csv price_data que não existiam na tabela **client**. Dessa forma, foi preciso remove-los.
-    Faça isso executando o código no notebook **price_data_adjust.ipynb**
+    Faça isso executando o código no notebook **price_data_adjust.ipynb** <br>

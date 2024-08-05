@@ -1,5 +1,3 @@
-# Para criar a tabela client
-
 DROP TABLE IF EXISTS webuser.client;
 
 CREATE TABLE webuser.client (
@@ -30,8 +28,6 @@ CREATE TABLE webuser.client (
     pow_max FLOAT, 
     churn INT    
 );
-
-# Para criar a tabela Price
 
 DROP TABLE IF EXISTS webuser.price;
 
